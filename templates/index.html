@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thai Cooking Techniques</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Thai Cooking Techniques</h1>
+    <p>Welcome to our site dedicated to 1000 Thai cooking techniques!</p>
+    <hr>
+    <div class="sidebar">
+        <h2>Categories</h2>
+        <ul>
+          {%- for category in categories %}
+            {%- if category.level == 0 %}
+               <li><a href="/?category={{category.id}}">{{category.name}}</a>
+                {%- if category.children -%}
+                <ul>
+                      {%- for child_category in category.children %}
+                         <li><a href="/?category={{child_category.id}}">{{child_category.name}}</a>
+                              {%- if child_category.children -%}
+                                <ul>
+                                      {%- for grand_child_category in child_category.children %}
+                                        <li><a href="/?category={{grand_child_category.id}}">{{grand_child_category.name}}</a></li>
+                                      {%- endfor %}
+                                </ul>
+                              {%- endif %}
+                         </li>
+                      {%- endfor %}
+                 </ul>
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor %}
+        </ul>
+    </div>
+    <div class="content">
+        {% for technique in techniques %}
+            <h2>{{ technique.title }}</h2>
+            <div>{{ technique.content | safe }}</div>
+            <hr>
+        {% endfor %}
+    </div>
+</body>
+</html>
